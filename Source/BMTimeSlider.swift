@@ -18,10 +18,8 @@ open class BMTimeSlider: UISlider {
     }
     
     override open func thumbRect(forBounds bounds: CGRect, trackRect rect: CGRect, value: Float) -> CGRect {
-        var newRect = rect
-        newRect.origin.x -= 10
-        newRect.origin.y += 1
-        newRect.size.width += 20
-        return super.thumbRect(forBounds: bounds, trackRect: newRect, value: value)
+        return super.thumbRect(forBounds:
+        bounds, trackRect: rect, value: value)
+        .offsetBy(dx: 0, dy: 0)
     }
 }
