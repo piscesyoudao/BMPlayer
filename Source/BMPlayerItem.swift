@@ -62,7 +62,7 @@ open class BMPlayerResourceDefinition {
     
     open var avURLAsset: AVURLAsset {
         get {
-            return BMPlayerManager.shared.asset(for: self)
+            return BMPlayerManager.asset(for: self)
         }
     }
     

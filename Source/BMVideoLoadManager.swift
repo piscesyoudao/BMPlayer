@@ -15,7 +15,7 @@ import MediaPlayer
 
 // V1.0
 let videoPathKey = "YK12_assetPath"
-@available (iOS 10.0,*)
+//@available (iOS 10.0,*)
 open class BMVideoLoadManager : NSObject {
     
     public static let shared = BMVideoLoadManager()
@@ -45,11 +45,15 @@ open class BMVideoLoadManager : NSObject {
         let baseURL = URL(fileURLWithPath: NSHomeDirectory())
         let assetURL = baseURL.appendingPathComponent(assetPath)
         var asset = AVURLAsset(url: assetURL)
-        if let cache = asset.assetCache, cache.isPlayableOffline {
-            return asset
+        if #available(iOS 10.0, *) {
+            if let cache = asset.assetCache, cache.isPlayableOffline {
+                return asset
+            } else {
+                asset = startDownloadTask(url)
+                return asset
+            }
         } else {
-            asset = startDownloadTask(url)
-            return asset
+            return AVURLAsset(url: url)
         }
     }
     
@@ -69,12 +73,14 @@ open class BMVideoLoadManager : NSObject {
     
     private func startDownloadTask(_ url:URL) -> AVURLAsset {
         let asset = AVURLAsset(url: url)
-        if !isTaskExist(url) {
-            let downloadTask = downloadSession!.makeAssetDownloadTask(asset: asset, assetTitle:"lslls", assetArtworkData: nil, options: nil)
-            downloadTask?.resume()
-            downloadingLock.lock()
-            downloaingTaskDict[url] = downloadTask
-            downloadingLock.unlock()
+        if #available(iOS 10.0, *) {
+            if !isTaskExist(url) {
+                let downloadTask = downloadSession!.makeAssetDownloadTask(asset: asset, assetTitle:"lslls", assetArtworkData: nil, options: nil)
+                downloadTask?.resume()
+                downloadingLock.lock()
+                downloaingTaskDict[url] = downloadTask
+                downloadingLock.unlock()
+            }
         }
         return asset
     }
