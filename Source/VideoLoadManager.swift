@@ -16,7 +16,7 @@ import MediaPlayer
 // V1.0
 let videoPathKey = "YK12_assetPath"
 @available (iOS 10.0,*)
-open class VideoLoadManager {
+open class VideoLoadManager : NSObject {
     
     public static let shared = VideoLoadManager()
     
