@@ -26,8 +26,10 @@ open class VideoLoadManager : NSObject {
     
     private func setupDownload() {
         if downloadSession == nil {
-            let configuration = URLSessionConfiguration.default
-            downloadSession = AVAssetDownloadURLSession.init(configuration:configuration, assetDownloadDelegate:self, delegateQueue:OperationQueue.main)
+            let configuration = URLSessionConfiguration.background(withIdentifier: "yk12.backgroundsession")
+            downloadSession =
+                AVAssetDownloadURLSession(configuration: configuration,assetDownloadDelegate: self,
+                                          delegateQueue: OperationQueue.main)
         }
     }
     
