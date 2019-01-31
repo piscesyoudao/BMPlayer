@@ -25,17 +25,15 @@ open class VideoLoadManager : NSObject {
     private var downloadingLock = NSLock()
     
     private func setupDownload() {
-        let configuration = URLSessionConfiguration.default
-        downloadSession = AVAssetDownloadURLSession.init(configuration:configuration, assetDownloadDelegate:self, delegateQueue:OperationQueue.main)
-    }
-    
-    override init() {
-        super.init()
-        setupDownload()
+        if downloadSession == nil {
+            let configuration = URLSessionConfiguration.default
+            downloadSession = AVAssetDownloadURLSession.init(configuration:configuration, assetDownloadDelegate:self, delegateQueue:OperationQueue.main)
+        }
     }
     
     //对外
     open func loadVideo(url:URL, videoTitle:String) -> AVURLAsset {
+        setupDownload()
         //1 read cache
         //2 if no, start videodownloadOpretion,retun nil,and play online steam
         guard let assetPath = UserDefaults.standard.value(forKey:videoPathKey) as? String else {
