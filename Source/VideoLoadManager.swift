@@ -16,7 +16,7 @@ import MediaPlayer
 // V1.0
 let videoPathKey = "YK12_assetPath"
 @available (iOS 10.0,*)
-class VideoLoadManager : NSObject {
+open class VideoLoadManager : NSObject {
     
     static let shared = VideoLoadManager()
     
@@ -35,7 +35,7 @@ class VideoLoadManager : NSObject {
     }
     
     //对外
-    func loadVideo(url:URL, videoTitle:String) -> AVURLAsset {
+    open func loadVideo(url:URL, videoTitle:String) -> AVURLAsset {
         //1 read cache
         //2 if no, start videodownloadOpretion,retun nil,and play online steam
         guard let assetPath = UserDefaults.standard.value(forKey:videoPathKey) as? String else {
@@ -53,7 +53,7 @@ class VideoLoadManager : NSObject {
         }
     }
     
-    func deleteVideoCache() {
+    open func deleteVideoCache() {
         do {
             let userDefaults = UserDefaults.standard
             if let assetPath = userDefaults.value(forKey:videoPathKey) as? String {
