@@ -46,6 +46,7 @@ open class BMPlayerManager {
     
     open var enableChooseDefinition = true
     
+    @available(iOS 10.0, *)
     open let videoLoadManager = VideoLoadManager()
     
     internal static func asset(for resouce: BMPlayerResourceDefinition) -> AVURLAsset {
