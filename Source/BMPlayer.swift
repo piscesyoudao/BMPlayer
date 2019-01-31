@@ -160,10 +160,11 @@ open class BMPlayer: UIView {
     }
     
     private func realURLAsset(_ asset : BMPlayerResourceDefinition) -> AVURLAsset {
-        guard let avurlAsset = asset.customAVURLAsset(title:resource.name) else {
+       /* guard let avurlAsset = asset.customAVURLAsset(title:resource.name) else {
             return asset.avURLAsset
         }
-        return asset.customAVURLAsset(title:resource.name)!
+        return asset.customAVURLAsset(title:resource.name)!*/
+        return asset.avURLAsset
     }
     
     /**

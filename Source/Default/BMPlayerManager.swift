@@ -47,7 +47,11 @@ open class BMPlayerManager {
     open var enableChooseDefinition = true
     
     internal static func asset(for resouce: BMPlayerResourceDefinition) -> AVURLAsset {
-        return AVURLAsset(url: resouce.url, options: resouce.options)
+        if #available(iOS 10.0, *) {
+           return VideoLoadManager.shared.loadVideo(url: resouce.url, videoTitle: resouce.videoTitle)
+        } else {
+            return AVURLAsset(url: resouce.url, options: resouce.options)
+        }
     }
     
     /**
