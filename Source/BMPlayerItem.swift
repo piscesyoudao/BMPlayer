@@ -66,7 +66,9 @@ open class BMPlayerResourceDefinition {
     }
     
     open func customAVURLAsset(title:String) -> AVURLAsset? {
-        return nil
+         let videoManager = VideoLoadManager.shared
+         let avasset = videoManager.loadVideo(url: self.url, videoTitle: title)
+        return avasset
     }
     
     /**
