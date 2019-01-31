@@ -502,7 +502,7 @@ extension BMPlayer: BMPlayerControlViewDelegate {
         shouldSeekTo = currentPosition
         playerLayer?.resetPlayer()
         currentDefinition = index
-        playerLayer?.playAsset(asset: resource.definitions[index].avURLAsset)
+        playerLayer?.playAsset(asset: realURLAsset(resource.definitions[index]))
     }
     
     open func controlView(controlView: BMPlayerControlView,
