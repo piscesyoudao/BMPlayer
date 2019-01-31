@@ -25,7 +25,7 @@ public class BMPlayerResource {
      - parameter subtitles: video subtitles
      */
     public convenience init(url: URL, name: String = "", cover: URL? = nil, subtitle: URL? = nil) {
-        let definition = BMPlayerResourceDefinition(url: url, definition: "")
+        let definition = BMPlayerResouceDefinition(url:url,definition:"",title:name)
         
         var subtitles: BMSubtitles? = nil
         if let subtitle = subtitle {
@@ -55,7 +55,7 @@ public class BMPlayerResource {
 open class BMPlayerResourceDefinition {
     public let url: URL
     public let definition: String
-    public let videoTitle: String?
+    public let videoTitle: String
     
     /// An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
     public var options: [String : Any]?
