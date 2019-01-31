@@ -88,7 +88,10 @@ open class BMVideoLoadManager : NSObject {
     private func isTaskExist(_ url:URL) -> Bool {
         var isExist = false
         downloadingLock.lock()
-        isExist = (downloaingTaskDict[url] != nil)
+        if let task = downloaingTaskDict[url] {
+            task.resume()
+            isExist = true
+        }
         downloadingLock.unlock()
         return isExist
     }
