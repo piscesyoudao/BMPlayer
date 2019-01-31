@@ -65,6 +65,10 @@ open class BMPlayerResourceDefinition {
         }
     }
     
+    open func customAVURLAsset(title:String) -> AUURLAsset? {
+        return nil
+    }
+    
     /**
      Video recource item with defination name and specifying options
      
