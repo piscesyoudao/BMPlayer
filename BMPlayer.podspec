@@ -14,8 +14,8 @@ s.author           = { "Eliyar Eziz" => "eliyar917@gmail.com" }
 s.source           = { :git => "https://github.com/BrikerMan/BMPlayer.git", :tag => s.version.to_s }
 s.social_media_url = 'http://weibo.com/536445669'
 
-s.ios.deployment_target = '8.0'
-s.platform     = :ios, '8.0'
+s.ios.deployment_target = '9.0'
+s.platform     = :ios, '9.0'
 s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 s.default_subspec = 'Full'
 
