@@ -125,7 +125,7 @@ open class BMPlayer: UIView {
         if BMPlayerConf.shouldAutoPlay {
             isURLSet = true
             let asset = resource.definitions[definitionIndex]
-            playerLayer?.playAsset(asset: asset.avURLAsset)
+            playerLayer?.playAsset(asset: realURLAsset(asset))
         } else {
             controlView.showCover(url: resource.cover)
             controlView.hideLoader()
@@ -149,7 +149,7 @@ open class BMPlayer: UIView {
         
         if !isURLSet {
             let asset = resource.definitions[currentDefinition]
-            playerLayer?.playAsset(asset: asset.avURLAsset)
+            playerLayer?.playAsset(asset: realURLAsset(asset))
             controlView.hideCoverImageView()
             isURLSet = true
         }
@@ -157,6 +157,13 @@ open class BMPlayer: UIView {
         panGesture.isEnabled = true
         playerLayer?.play()
         isPauseByUser = false
+    }
+    
+    private func realURLAsset(asset : BMPlayerResourceDefinition) -> AVURLAsset {
+        guard let avurlAsset = asset.customAVURLAsset(resource.name) else {
+            return asset.avURLAsset
+        }
+        return asset.customAVURLAsset(resource.name)!
     }
     
     /**
