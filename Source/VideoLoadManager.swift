@@ -29,7 +29,7 @@ open class VideoLoadManager : NSObject {
         downloadSession = AVAssetDownloadURLSession.init(configuration:configuration, assetDownloadDelegate:self, delegateQueue:OperationQueue.main)
     }
     
-    private override init() {
+    override init() {
         super.init()
         setupDownload()
     }
