@@ -55,7 +55,7 @@ public class BMPlayerResource {
 open class BMPlayerResourceDefinition {
     public let url: URL
     public let definition: String
-    public let videoTitle: String
+    public let videoTitle: String?
     
     /// An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
     public var options: [String : Any]?
