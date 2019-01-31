@@ -87,9 +87,10 @@ open class BMPlayerResourceDefinition {
      let definiton.options = ["AVURLAssetHTTPHeaderFieldsKey":header]
      ```
      */
-    public init(url: URL, definition: String, options: [String : Any]? = nil) {
+    public init(url: URL, definition: String, title:String,options: [String : Any]? = nil) {
         self.url        = url
         self.definition = definition
         self.options    = options
+        self.videoTitle = title
     }
 }
