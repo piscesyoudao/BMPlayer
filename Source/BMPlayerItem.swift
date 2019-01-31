@@ -65,8 +65,7 @@ open class BMPlayerResourceDefinition {
         }
     }
     
-    open func customAVURLAsset(title:String) -> AVURLAsset? {
-        return nil
+    open func customAVURLAsset(title:String) {
     }
     
     /**
