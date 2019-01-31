@@ -48,8 +48,8 @@ open class BMPlayerManager {
     
     open var videoLoadManager = BMVideoLoadManager()
     
-    internal static func asset(for resouce: BMPlayerResourceDefinition) -> AVURLAsset {
-        let avasset = BMPlayerManager.shared.videoLoadManager.loadVideo(url: resouce.url, videoTitle: resouce.videoTitle)
+    func asset(for resouce: BMPlayerResourceDefinition) -> AVURLAsset {
+        let avasset = videoLoadManager.loadVideo(url: resouce.url, videoTitle: resouce.videoTitle)
         return avasset
     }
     

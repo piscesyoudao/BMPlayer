@@ -60,11 +60,11 @@ open class BMPlayerResourceDefinition {
     /// An instance of NSDictionary that contains keys for specifying options for the initialization of the AVURLAsset. See AVURLAssetPreferPreciseDurationAndTimingKey and AVURLAssetReferenceRestrictionsKey above.
     public var options: [String : Any]?
     
-    open var avURLAsset: AVURLAsset {
+    /*open var avURLAsset: AVURLAsset {
         get {
             return BMPlayerManager.asset(for: self)
         }
-    }
+    }*/
     
     /*open func customAVURLAsset(title:String) -> AVURLAsset? {
          let videoManager = VideoLoadManager.shared

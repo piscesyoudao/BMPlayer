@@ -164,7 +164,7 @@ open class BMPlayer: UIView {
             return asset.avURLAsset
         }
         return asset.customAVURLAsset(title:resource.name)!*/
-        return asset.avURLAsset
+        return BMPlayerManager.shared.asset(for: asset)
     }
     
     /**
