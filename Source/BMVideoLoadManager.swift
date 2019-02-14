@@ -38,7 +38,7 @@ class BMVideoLoadManager : NSObject {
         }
     }
     
-    private override init() {
+   override init() {
         super.init()
         setupDownload()
     }
