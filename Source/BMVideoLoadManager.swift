@@ -16,9 +16,9 @@ import MediaPlayer
 // V1.0
 let videoPathKey = "YK12_assetPath"
 //@available (iOS 10.0,*)
-class YKVideoLoadManager : NSObject {
+class BMVideoLoadManager : NSObject {
     
-    static let shared = YKVideoLoadManager()
+    static let shared = BMVideoLoadManager()
     
     private var downloadSession : AVAssetDownloadURLSession?
     private var downloaingTaskDict:[URL:AVAssetDownloadTask] = [:]
@@ -124,7 +124,7 @@ class YKVideoLoadManager : NSObject {
 }
 
 @available(iOS 10.0, *)
-extension YKVideoLoadManager : AVAssetDownloadDelegate {
+extension BMVideoLoadManager : AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didFinishDownloadingTo location: URL) {
         removeTask(assetDownloadTask.urlAsset.url)
         let userDefaults = UserDefaults.standard
