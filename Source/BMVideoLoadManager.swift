@@ -87,7 +87,7 @@ class YKVideoLoadManager : NSObject {
                 userDefaults.removeObject(forKey:videoPathKey)
             }
         } catch {
-            DDLogError("An error occured deleteVideoCach")
+            //DDLogError("An error occured deleteVideoCach")
         }
     }
     
