@@ -9,36 +9,53 @@
 import Foundation
 import MediaPlayer
 /**
- *V1.0 做简单的缓存策略,直接下载存在本地,使用AVAssetDownloadTask & assetCache
-  V2.0 做边下边播缓存， 使用AVAssetResourceLoader,参考AVPlayerCacheSupport  和 VIMediaCache
+ *V1.0 做简单的缓存策略,直接下载存在本地,使用AVAssetDownloadTask & assetCache,最大为10
+ V2.0 做边下边播缓存， 使用AVAssetResourceLoader,参考AVPlayerCacheSupport  和 VIMediaCache
  */
 
 // V1.0
 let videoPathKey = "YK12_assetPath"
-@available (iOS 9.0,*)
-open class BMVideoLoadManager : NSObject {
+//@available (iOS 10.0,*)
+class YKVideoLoadManager : NSObject {
     
-    public static let shared = BMVideoLoadManager()
+    static let shared = YKVideoLoadManager()
     
     private var downloadSession : AVAssetDownloadURLSession?
     private var downloaingTaskDict:[URL:AVAssetDownloadTask] = [:]
-    private var downloadingLock = NSLock()
     
-    private func setupDownload() {
+    private var downloadingLock : NSLock {
+        let lock = NSLock()
+        return lock
+    }
+    
+    internal func  setupDownload() {
         if downloadSession == nil {
             let configuration = URLSessionConfiguration.background(withIdentifier: "yk12.backgroundsession")
+            configuration.sessionSendsLaunchEvents = false
             downloadSession =
                 AVAssetDownloadURLSession(configuration: configuration,assetDownloadDelegate: self,
                                           delegateQueue: OperationQueue.main)
         }
     }
     
-    //对外
-    open func loadVideo(url:URL, videoTitle:String) -> AVURLAsset {
+    private override init() {
+        super.init()
         setupDownload()
+    }
+    
+    deinit {
+        downloadSession?.invalidateAndCancel()
+    }
+    
+    //对外
+    func loadVideo(url:URL, videoTitle:String) -> AVURLAsset {
         //1 read cache
         //2 if no, start videodownloadOpretion,retun nil,and play online steam
-        guard let assetPath = UserDefaults.standard.value(forKey:videoPathKey) as? String else {
+        guard let assetPathDict = UserDefaults.standard.value(forKey:videoPathKey) as? Dictionary<String, String> else {
+            let asset = startDownloadTask(url)
+            return asset
+        }
+        guard let assetPath =  assetPathDict[url.absoluteString] else {
             let asset = startDownloadTask(url)
             return asset
         }
@@ -57,17 +74,20 @@ open class BMVideoLoadManager : NSObject {
         }
     }
     
-    open func deleteVideoCache() {
+    func deleteVideoCache() {
         do {
             let userDefaults = UserDefaults.standard
-            if let assetPath = userDefaults.value(forKey:videoPathKey) as? String {
-                let baseURL = URL(fileURLWithPath: NSHomeDirectory())
-                let assetURL = baseURL.appendingPathComponent(assetPath)
-                try FileManager.default.removeItem(at: assetURL)
+            if let assetPathDict = userDefaults.value(forKey:videoPathKey) as? Dictionary<String, String> {
+                try assetPathDict.forEach { (arg0) in
+                    let (_, value) = arg0
+                    let baseURL = URL(fileURLWithPath: NSHomeDirectory())
+                    let assetURL = baseURL.appendingPathComponent(value)
+                    try FileManager.default.removeItem(at: assetURL)
+                }
                 userDefaults.removeObject(forKey:videoPathKey)
             }
         } catch {
-            //DDLogError("An error occured deleteVideoCach")
+            DDLogError("An error occured deleteVideoCach")
         }
     }
     
@@ -104,9 +124,18 @@ open class BMVideoLoadManager : NSObject {
 }
 
 @available(iOS 10.0, *)
-extension BMVideoLoadManager : AVAssetDownloadDelegate {
+extension YKVideoLoadManager : AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didFinishDownloadingTo location: URL) {
         removeTask(assetDownloadTask.urlAsset.url)
-        UserDefaults.standard.set(location.relativePath, forKey:videoPathKey)
+        let userDefaults = UserDefaults.standard
+        if let pathList = userDefaults.value(forKey:videoPathKey) as? Dictionary<String, String> {
+            var videoPathList : [String:String] = pathList
+            videoPathList[assetDownloadTask.urlAsset.url.absoluteString] = location.relativePath
+            UserDefaults.standard.set(videoPathList, forKey:videoPathKey)
+        } else {
+            var videoPathList = [String:String]()
+            videoPathList[assetDownloadTask.urlAsset.url.absoluteString] = location.relativePath
+            UserDefaults.standard.set(videoPathList, forKey:videoPathKey)
+        }
     }
 }
