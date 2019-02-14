@@ -28,7 +28,7 @@ class BMVideoLoadManager : NSObject {
         return lock
     }
     
-    internal func  setupDownload() {
+    private func  setupDownload() {
         if downloadSession == nil {
             let configuration = URLSessionConfiguration.background(withIdentifier: "yk12.backgroundsession")
             configuration.sessionSendsLaunchEvents = false
