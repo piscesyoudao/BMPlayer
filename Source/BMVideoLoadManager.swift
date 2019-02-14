@@ -138,4 +138,13 @@ extension BMVideoLoadManager : AVAssetDownloadDelegate {
             UserDefaults.standard.set(videoPathList, forKey:videoPathKey)
         }
     }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        guard error == nil else {
+            return
+        }
+        guard let task = task as? AVAssetDownloadTask else { return }
+        removeTask(task.urlAsset.url)
+        //startDownloadTask(task.urlAsset.url)
+    }
 }
