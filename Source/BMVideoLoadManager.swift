@@ -34,7 +34,7 @@ open class BMVideoLoadManager : NSObject {
             configuration.sessionSendsLaunchEvents = false
             downloadSession =
                 AVAssetDownloadURLSession(configuration: configuration,assetDownloadDelegate: self,
-                                          delegateQueue: nil)
+                                          delegateQueue: OperationQueue.main)
         }
     }
     
