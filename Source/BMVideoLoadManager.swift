@@ -63,7 +63,9 @@ open class BMVideoLoadManager : NSObject {
         let assetURL = baseURL.appendingPathComponent(assetPath)
         var asset = AVURLAsset(url: assetURL)
         if #available(iOS 10.0, *) {
-            if let cache = asset.assetCache, cache.isPlayableOffline {
+            if let cache = asset.assetCache
+                //, cache.isPlayableOffline
+            {
                 return asset
             } else {
                 asset = startDownloadTask(url)
@@ -109,7 +111,7 @@ open class BMVideoLoadManager : NSObject {
         var isExist = false
         downloadingLock.lock()
         if let task = downloaingTaskDict[url] {
-            task.resume()
+            //task.resume()
             isExist = true
         }
         downloadingLock.unlock()
@@ -126,6 +128,9 @@ open class BMVideoLoadManager : NSObject {
 @available(iOS 10.0, *)
 extension BMVideoLoadManager : AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didFinishDownloadingTo location: URL) {
+        guard assetDownloadTask.urlAsset.url else {
+            return
+        }
         removeTask(assetDownloadTask.urlAsset.url)
         let userDefaults = UserDefaults.standard
         if let pathList = userDefaults.value(forKey:videoPathKey) as? Dictionary<String, String> {
@@ -139,12 +144,12 @@ extension BMVideoLoadManager : AVAssetDownloadDelegate {
         }
     }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+   /* func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard error == nil else {
             return
         }
         guard let task = task as? AVAssetDownloadTask else { return }
         removeTask(task.urlAsset.url)
         //startDownloadTask(task.urlAsset.url)
-    }
+    }*/
 }
