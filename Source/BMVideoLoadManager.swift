@@ -128,7 +128,7 @@ open class BMVideoLoadManager : NSObject {
 @available(iOS 10.0, *)
 extension BMVideoLoadManager : AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didFinishDownloadingTo location: URL) {
-        guard assetDownloadTask.urlAsset.url else {
+        guard assetDownloadTask.urlAsset.url != nil else {
             return
         }
         removeTask(assetDownloadTask.urlAsset.url)
